@@ -1,0 +1,176 @@
+<odoo>
+  <data>
+
+    <!-- Наследуем форму настроек res.config.settings -->
+    <record id="res_config_settings_view_form_cdek" model="ir.ui.view">
+      <field name="name">res.config.settings.view.form.inherit.cdek</field>
+      <field name="model">res.config.settings</field>
+      <field name="inherit_id" ref="base_setup.res_config_settings_view_form"/>
+      <field name="priority" eval="90"/>
+      <field name="arch" type="xml">
+
+        <!-- Вклиниваем наш блок сразу внутрь <form> -->
+        <xpath expr="//form" position="inside">
+          <div class="app_settings_block o_setting_block"
+               data-key="cdek_integration"
+               data-string="CDEK Integration"
+               groups="base.group_system">
+            <h2>CDEK API Configuration</h2>
+            <div class="row mt16 o_settings_container" id="cdek_api_config">
+              <div class="col-12 col-lg-6 o_setting_box">
+                <div class="o_setting_left_pane">
+                  <field name="cdek_test_mode"/>
+                </div>
+                <div class="o_setting_right_pane">
+                  <label for="cdek_test_mode"/>
+                  <div class="text-muted">
+                    Use CDEK test (sandbox) environment.
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-6 o_setting_box">
+                <div class="o_setting_left_pane"/>
+                <div class="o_setting_right_pane">
+                  <label for="cdek_client_id" string="Client ID"/>
+                  <field name="cdek_client_id" class="oe_inline"/>
+                  <label for="cdek_client_secret" string="Client Secret"/>
+                  <field name="cdek_client_secret" class="oe_inline" password="True"/>
+                </div>
+              </div>
+              <div class="col-12 col-lg-6 o_setting_box">
+                <div class="o_setting_left_pane"/>
+                <div class="o_setting_right_pane">
+                  <label for="cdek_account" string="CDEK Account (Number)"/>
+                  <field name="cdek_account" class="oe_inline"/>
+                  <label for="cdek_secure_password" string="CDEK Secure Password"/>
+                  <field name="cdek_secure_password" class="oe_inline" password="True"/>
+                  <div class="text-muted">
+                    Optional: Your CDEK account number and secure password if required by your contract.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h2>CDEK Shipment Defaults</h2>
+            <div class="row mt16 o_settings_container" id="cdek_defaults">
+              <div class="col-12 col-lg-6 o_setting_box">
+                <div class="o_setting_left_pane">
+                  <label for="cdek_default_label_format" class="o_light_label"/>
+                </div>
+                <div class="o_setting_right_pane">
+                  <field name="cdek_default_label_format" class="oe_inline"/>
+                  <div class="text-muted">
+                    Default format for shipping labels.
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-6 o_setting_box">
+                <div class="o_setting_left_pane">
+                  <label for="cdek_default_sender_city_code" class="o_light_label"/>
+                </div>
+                <div class="o_setting_right_pane">
+                  <field name="cdek_default_sender_city_code" class="oe_inline"/>
+                  <div class="text-muted">
+                    Numeric CDEK code for the default sender city (e.g., Moscow is 44).
+                  </div>
+                </div>
+              </div>
+              <div class="col-12 col-lg-6 o_setting_box">
+                <div class="o_setting_left_pane">
+                  <label for="cdek_default_sender_postcode" class="o_light_label"/>
+                </div>
+                <div class="o_setting_right_pane">
+                  <field name="cdek_default_sender_postcode" class="oe_inline"/>
+                  <div class="text-muted">
+                    Default postal code of the sender.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="row mt16 o_settings_container" id="cdek_package_defaults">
+              <div class="col-12 col-lg-6 o_setting_box">
+                <div class="o_setting_right_pane">
+                  <strong>Default Package Dimensions &amp; Weight</strong>
+                </div>
+              </div>
+              <div class="col-12 col-lg-6 o_setting_box"/>
+              <div class="col-12 col-lg-6 o_setting_box">
+                <div class="o_setting_left_pane">
+                  <label for="cdek_default_length_cm" string="Length (cm)" class="o_light_label"/>
+                </div>
+                <div class="o_setting_right_pane">
+                  <field name="cdek_default_length_cm" class="oe_inline"/>
+                </div>
+              </div>
+              <div class="col-12 col-lg-6 o_setting_box">
+                <div class="o_setting_left_pane">
+                  <label for="cdek_default_width_cm" string="Width (cm)" class="o_light_label"/>
+                </div>
+                <div class="o_setting_right_pane">
+                  <field name="cdek_default_width_cm" class="oe_inline"/>
+                </div>
+              </div>
+              <div class="col-12 col-lg-6 o_setting_box">
+                <div class="o_setting_left_pane">
+                  <label for="cdek_default_height_cm" string="Height (cm)" class="o_light_label"/>
+                </div>
+                <div class="o_setting_right_pane">
+                  <field name="cdek_default_height_cm" class="oe_inline"/>
+                </div>
+              </div>
+              <div class="col-12 col-lg-6 o_setting_box">
+                <div class="o_setting_left_pane">
+                  <label for="cdek_default_weight_kg" string="Weight (kg)" class="o_light_label"/>
+                </div>
+                <div class="o_setting_right_pane">
+                  <field name="cdek_default_weight_kg" class="oe_inline"/>
+                </div>
+              </div>
+            </div>
+
+            <h2>CDEK Tracking</h2>
+            <div class="row mt16 o_settings_container" id="cdek_tracking_config">
+              <div class="col-12 col-lg-6 o_setting_box">
+                <div class="o_setting_left_pane">
+                  <label for="cdek_tracking_update_interval_minutes" class="o_light_label"/>
+                </div>
+                <div class="o_setting_right_pane">
+                  <field name="cdek_tracking_update_interval_minutes" class="oe_inline"/>
+                  <div class="text-muted">
+                    How often to automatically check CDEK shipment statuses (in minutes). 0 to disable.
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </xpath>
+
+      </field>
+    </record>
+
+    <!-- Действие и меню остаются без изменений -->
+    <record id="action_cdek_config_settings" model="ir.actions.act_window">
+      <field name="name">CDEK Settings</field>
+      <field name="type">ir.actions.act_window</field>
+      <field name="res_model">res.config.settings</field>
+      <field name="view_mode">form</field>
+      <field name="target">inline</field>
+      <field name="context">{'module':'cdek_integration','bin_size':False}</field>
+    </record>
+
+    <menuitem id="menu_cdek_root_config"
+              name="CDEK"
+              parent="base.menu_administration"
+              sequence="50"
+              groups="base.group_system"/>
+    <menuitem id="menu_cdek_config_settings"
+              name="Settings"
+              parent="menu_cdek_root_config"
+              sequence="1"
+              action="action_cdek_config_settings"
+              groups="base.group_system"/>
+
+  </data>
+</odoo>

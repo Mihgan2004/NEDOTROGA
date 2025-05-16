@@ -1,0 +1,130 @@
+<odoo>
+    <data>
+        <record id="view_cdek_pvz_search" model="ir.ui.view">
+            <field name="name">cdek.pvz.search</field>
+            <field name="model">cdek.pvz</field>
+            <field name="arch" type="xml">
+                <search string="Search CDEK PVZ">
+                    <field name="name" string="Name/Address"/>
+                    <field name="code"/>
+                    <field name="city_name"/>
+                    <field name="city_code"/>
+                    <field name="type"/>
+                    <field name="active"/>
+                    <separator/>
+                    <filter string="Active" name="active" domain="[('active', '=', True)]"/>
+                    <filter string="Inactive" name="inactive" domain="[('active', '=', False)]"/>
+                    <separator/>
+                    <filter string="PVZ Only" name="pvz_only" domain="[('type', '=', 'PVZ')]"/>
+                    <filter string="Postamat Only" name="postamat_only" domain="[('type', '=', 'POSTAMAT')]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="City" name="group_by_city" context="{'group_by': 'city_name'}"/>
+                        <filter string="Type" name="group_by_type" context="{'group_by': 'type'}"/>
+                        <filter string="Country" name="group_by_country" context="{'group_by': 'country_code'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+
+        <record id="view_cdek_pvz_tree" model="ir.ui.view">
+            <field name="name">cdek.pvz.tree</field>
+            <field name="model">cdek.pvz</field>
+            <field name="arch" type="xml">
+                <tree string="CDEK Pickup Points">
+                    <field name="code"/>
+                    <field name="name"/>
+                    <field name="city_name"/>
+                    <field name="type"/>
+                    <field name="address_full" optional="hide"/>
+                    <field name="work_time" optional="hide"/>
+                    <field name="is_cash_on_delivery" optional="show"/>
+                    <field name="is_card_payment" optional="show"/>
+                    <field name="active" widget="boolean_toggle"/>
+                    <field name="last_updated_cdek" optional="hide"/>
+                </tree>
+            </field>
+        </record>
+
+        <record id="view_cdek_pvz_form" model="ir.ui.view">
+            <field name="name">cdek.pvz.form</field>
+            <field name="model">cdek.pvz</field>
+            <field name="arch" type="xml">
+                <form string="CDEK Pickup Point">
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                             <button name="toggle_active" type="object"
+                                    class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button"
+                                    options='{"terminology": "archive"}'/>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <label for="name" class="oe_edit_only"/>
+                            <h1><field name="name" placeholder="e.g., PVZ on Main Street"/></h1>
+                            <h3><field name="code" placeholder="CDEK PVZ Code"/></h3>
+                        </div>
+                        <group>
+                            <group string="Location Details">
+                                <field name="type"/>
+                                <field name="city_name"/>
+                                <field name="city_code"/>
+                                <field name="region_name"/>
+                                <field name="country_code"/>
+                                <field name="address_full" placeholder="Full street address, building, etc."/>
+                                <field name="address_comment" placeholder="How to find, floor, etc."/>
+                            </group>
+                            <group string="Contact &amp; Operation">
+                                <field name="work_time"/>
+                                <field name="phone"/>
+                                <field name="email"/>
+                                <field name="owner_code"/>
+                                <field name="last_updated_cdek" readonly="1"/>
+                            </group>
+                        </group>
+                        <group string="Coordinates &amp; Capabilities">
+                             <group>
+                                <label for="latitude" string="Coordinates (Lat, Lon)"/>
+                                <div class="o_row">
+                                    <field name="latitude" nolabel="1"/>
+                                    <field name="longitude" nolabel="1"/>
+                                </div>
+                                <field name="note" placeholder="Additional notes about the PVZ"/>
+                             </group>
+                             <group>
+                                <field name="is_cash_on_delivery"/>
+                                <field name="is_card_payment"/>
+                                <field name="is_dressing_room"/>
+                                <field name="is_partial_delivery"/>
+                             </group>
+                        </group>
+                         <group string="Package Limitations (If applicable)">
+                             <group>
+                                <field name="max_weight_allowed_kg"/>
+                             </group>
+                             <group>
+                                <field name="max_length_cm"/>
+                                <field name="max_width_cm"/>
+                                <field name="max_height_cm"/>
+                             </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="action_cdek_pvz_list" model="ir.actions.act_window">
+            <field name="name">CDEK Pickup Points (PVZ)</field>
+            <field name="res_model">cdek.pvz</field>
+            <field name="view_mode">tree,form</field>
+            <field name="search_view_id" ref="view_cdek_pvz_search"/>
+            <field name="help" type="html">
+              <p class="o_view_nocontent_smiling_face">
+                No CDEK Pickup Points found.
+              </p><p>
+                You can update the list from CDEK via scheduled actions or a manual trigger (if implemented).
+              </p>
+            </field>
+        </record>
+
+    </data>
+</odoo>

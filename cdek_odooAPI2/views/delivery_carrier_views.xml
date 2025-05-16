@@ -1,0 +1,49 @@
+<odoo>
+  <data>
+    <!-- Extension of delivery.carrier form for CDEK settings -->
+    <record id="view_delivery_carrier_form_cdek" model="ir.ui.view">
+      <field name="name">delivery.carrier.form.cdek</field>
+      <field name="model">delivery.carrier</field>
+      <field name="inherit_id" ref="delivery.view_delivery_carrier_form"/>
+      <field name="arch" type="xml">
+
+        <!-- Insert CDEK Configuration tab before Destination -->
+        <xpath expr="//page[@name='destination']" position="before">
+          <page string="CDEK Configuration"
+                name="cdek_config"
+                modifiers="{'invisible': [('delivery_type', '!=', 'cdek')]}">
+            <group>
+
+              <!-- CDEK Service Details -->
+              <group string="CDEK Service Details">
+                <field name="cdek_tariff_code"
+                       modifiers="{'required': [('delivery_type', '=', 'cdek')]}"/>
+                <field name="cdek_label_format_override"
+                       widget="radio"
+                       options="{'horizontal': true}"/>
+                <field name="cdek_add_days"/>
+                <field name="cdek_allow_cod"/>
+              </group>
+
+              <!-- Free Shipping Threshold -->
+              <group string="Free Shipping Threshold">
+              <field name="cdek_free_shipping_threshold"/>
+                <field name="amount"/>
+              </group>
+
+              <!-- Pricing Overrides Info -->
+              <group string="Pricing Overrides (Optional)">
+                <div class="text-muted">
+                  Use the standard "Pricing" tab for fixed price or free shipping rules.
+                  The CDEK integration will respect these if applicable.
+                </div>
+              </group>
+
+            </group>
+          </page>
+        </xpath>
+
+      </field>
+    </record>
+  </data>
+</odoo>

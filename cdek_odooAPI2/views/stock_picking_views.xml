@@ -1,0 +1,70 @@
+<odoo>
+    <data>
+        <record id="view_picking_form_cdek" model="ir.ui.view">
+            <field name="name">stock.picking.form.cdek</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.view_picking_form"/>
+            <field name="arch" type="xml">
+                <!-- Добавление кнопок в header -->
+                <xpath expr="//header" position="inside">
+                    <button name="action_cdek_send_shipping"
+                            string="Send to CDEK"
+                            type="object"
+                            class="oe_highlight"
+                            groups="stock.group_stock_user"
+                            modifiers="{'invisible': ['|', ('carrier_id.delivery_type', '!=', 'cdek'), ('carrier_tracking_ref', '!=', False)]}"/>
+                    <button name="cdek_action_get_label"
+                            string="Get CDEK Label"
+                            type="object"
+                            groups="stock.group_stock_user"
+                            modifiers="{'invisible': ['|', ('carrier_id.delivery_type', '!=', 'cdek'), ('carrier_tracking_ref', '=', False)]}"/>
+                    <button name="cdek_update_tracking_state"
+                            string="Update CDEK Status"
+                            type="object"
+                            groups="stock.group_stock_user"
+                            modifiers="{'invisible': ['|', ('carrier_id.delivery_type', '!=', 'cdek'), ('carrier_tracking_ref', '=', False)]}"/>
+                </xpath>
+
+                <!-- Вставка вкладки CDEK Information на уровне notebook -->
+                <xpath expr="//notebook" position="inside">
+                    <page name="cdek_info" string="CDEK Information"
+                          modifiers="{'invisible': [('carrier_id.delivery_type', '!=', 'cdek')]}" >
+                        <group>
+                            <group string="CDEK Order Details">
+                                <field name="cdek_order_uuid"/>
+                                <field name="carrier_tracking_ref" string="CDEK Tracking Number (UUID)"/>
+                            </group>
+                            <group string="CDEK Tracking Status">
+                                <field name="cdek_tracking_state_code"/>
+                                <field name="cdek_tracking_state_name"/>
+                                <field name="cdek_tracking_state_datetime"/>
+                            </group>
+                        </group>
+                        <group string="CDEK Tracking History">
+                            <field name="cdek_tracking_history_log" nolabel="1" readonly="1"/>
+                        </group>
+                    </page>
+                </xpath>
+
+                <!-- Переименование поля carrier_tracking_ref -->
+                <xpath expr="//field[@name='carrier_tracking_ref']" position="attributes">
+                    <attribute name="string">Tracking Reference / CDEK UUID</attribute>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="view_picking_tree_cdek_button" model="ir.ui.view">
+            <field name="name">stock.picking.tree.cdek.button</field>
+            <field name="model">stock.picking</field>
+            <field name="inherit_id" ref="stock.vpicktree"/>
+            <field name="arch" type="xml">
+                <xpath expr="//header" position="inside">
+                    <button name="action_cdek_send_shipping"
+                            string="Send to CDEK"
+                            type="object"
+                            groups="stock.group_stock_user"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

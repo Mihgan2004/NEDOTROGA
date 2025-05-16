@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <template id="assets_frontend" inherit_id="website.assets_frontend">
+        <xpath expr="." position="inside">
+            <!-- Add Yandex Maps API -->
+            <script src="https://api-maps.yandex.ru/2.1/?apikey=YOUR_API_KEY&amp;lang=ru_RU" type="text/javascript"/>
+            <!-- Add our custom assets -->
+            <script type="text/javascript" src="/cdek_odooAPI2/static/src/js/cdek_pvz_selector_map.js"/>
+            <link rel="stylesheet" href="/cdek_odooAPI2/static/src/css/pvz_picker.css"/>
+        </xpath>
+    </template>
+
+    <!-- Extend the checkout delivery template to add PVZ selector -->
+    <template id="checkout_delivery" inherit_id="website_sale.checkout_delivery">
+        <xpath expr="//div[@id='delivery_options']" position="after">
+            <div t-if="order.carrier_id.delivery_type == 'cdek'" class="form-group">
+                <label for="cdek_pvz_id" string="Выберите пункт выдачи"/>
+                <field name="cdek_pvz_id" 
+                       widget="cdek_pvz_selector_map"
+                       options="{'yandexMapsApiKey': 'YOUR_API_KEY'}"
+                       class="form-control"/>
+            </div>
+        </xpath>
+    </template>
+</odoo> 
