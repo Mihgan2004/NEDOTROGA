@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<templates xml:space="preserve">
+
+    <t t-name="cdek_odooAPI2.CdekPvzSelectorAndMap" owl="1">
+        <div class="cdek-pvz-selector">
+            <div class="row">
+                <div class="col-md-5">
+                    <div class="form-group">
+                        <input type="text" 
+                               class="form-control" 
+                               t-model="state.searchText"
+                               t-on-input="onSearch"
+                               placeholder="Поиск ПВЗ"/>
+                    </div>
+                    <div class="pvz-list">
+                        <t t-if="state.pvzList.length">
+                            <select class="form-control" t-on-change="onPvzSelect">
+                                <option value="">Выберите пункт выдачи</option>
+                                <t t-foreach="state.pvzList" t-as="pvz">
+                                    <option t-att-value="pvz.id">
+                                        <t t-esc="pvz.name"/> - <t t-esc="pvz.address"/>
+                                    </option>
+                                </t>
+                            </select>
+                        </t>
+                        <t t-else="">
+                            <div class="alert alert-info">
+                                Введите адрес для поиска ПВЗ
+                            </div>
+                        </t>
+                    </div>
+                </div>
+                <div class="col-md-7">
+                    <div t-ref="mapContainer" class="cdek-map-container" style="height: 400px;"/>
+                </div>
+            </div>
+        </div>
+    </t>
+</templates>

@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <menuitem id="menu_cdek_data_root"
+            name="CDEK Data"
+            parent="menu_cdek_root_config" sequence="10"
+            groups="base.group_user"/> <menuitem id="menu_cdek_pvz_list"
+            name="Pickup Points (PVZ)"
+            parent="menu_cdek_data_root"
+            action="action_cdek_pvz_list"
+            sequence="10"/>
+
+        <menuitem id="menu_cdek_tariff_list"
+            name="Tariffs"
+            parent="menu_cdek_data_root"
+            action="action_cdek_tariff_list"
+            sequence="20"/>
+
+        </data>
+</odoo>

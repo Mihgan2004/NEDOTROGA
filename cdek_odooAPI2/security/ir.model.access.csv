@@ -1,0 +1,8 @@
+id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
+access_cdek_pvz_user,cdek.pvz.user,model_cdek_pvz,base.group_user,1,0,0,0
+access_cdek_pvz_manager,cdek.pvz.manager,model_cdek_pvz,sales_team.group_sale_manager,1,1,1,1
+access_cdek_pvz_admin,cdek.pvz.admin,model_cdek_pvz,base.group_system,1,1,1,1
+
+access_cdek_tariff_user,cdek.tariff.user,model_cdek_tariff,base.group_user,1,0,0,0
+access_cdek_tariff_manager,cdek.tariff.manager,model_cdek_tariff,sales_team.group_sale_manager,1,1,1,1
+access_cdek_tariff_admin,cdek.tariff.admin,model_cdek_tariff,base.group_system,1,1,1,1

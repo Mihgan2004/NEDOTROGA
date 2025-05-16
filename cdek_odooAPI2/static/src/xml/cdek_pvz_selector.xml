@@ -1,0 +1,65 @@
+    <?xml version="1.0" encoding="UTF-8"?>
+    <templates xml:space="preserve">
+
+        <t t-name="your_module_name.CdekPvzSelector" owl="1">
+            <div class="o_field_widget o_field_cdek_pvz_selector position-relative">
+                <div class="input-group">
+                    <input type="text"
+                        class="form-control o_input"
+                        t-att-id="props.id"
+                        t-att-value="state.currentInput"
+                        t-on-input="_onInput"
+                        t-on-focus="_onFocus"
+                        t-on-keydown="_onKeyDown"
+                        t-ref="pvzInput"
+                        placeholder="Начните вводить для поиска ПВЗ..."
+                        t-att-readonly="props.readonly"
+                        autocomplete="off"/>
+                    <button t-if="props.record.data[props.name] and !props.readonly"
+                            class="btn btn-secondary o_external_button"
+                            type="button"
+                            tabindex="-1"
+                            draggable="false"
+                            aria-label="Очистить"
+                            title="Очистить"
+                            t-on-click.stop.prevent="_clearSelection">
+                        <i class="fa fa-times" role="img" aria-label="Очистить"/>
+                    </button>
+                </div>
+
+                <div t-if="state.isLoading" class="o_loading_indicator"/>
+
+                <div t-if="state.showDropdown and state.searchResults.length > 0"
+                    class="cdek-pvz-dropdown dropdown-menu show position-absolute w-100"
+                    style="max-height: 300px; overflow-y: auto; z-index: 1050;"
+                    t-ref="pvzDropdown">
+                    <t t-foreach="state.searchResults" t-as="pvz" t-key="pvz.id">
+                        <button type="button"
+                                class="dropdown-item pvz-dropdown-item d-flex align-items-center"
+                                t-att-class="{ 'active': state.activeIndex === pvz_index }"
+                                t-att-data-index="pvz_index"
+                                t-on-click="() => this._onPvzSelect(pvz)"
+                                t-on-mouseenter="() => state.activeIndex = pvz_index"
+                                role="option"
+                                t-att-aria-selected="state.activeIndex === pvz_index ? 'true' : 'false'">
+                            <span class="me-2">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" width="16" height="16" fill="currentColor" class="o_icon">
+                                    <path d="M8 .5A5.506 5.506 0 0 0 2.5 6c0 3.554 4.688 9.005 5.117 9.386a.62.62 0 0 0 .766 0C8.812 15.005 13.5 9.554 13.5 6A5.506 5.506 0 0 0 8 .5ZM8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4Z"/>
+                                </svg>
+                            </span>
+                            <div class="flex-grow-1">
+                                <div class="fw-bold"><t t-esc="pvz.code"/> - <t t-esc="pvz.name"/></div>
+                                <small class="text-muted"><t t-esc="pvz.address_full"/></small>
+                                <div t-if="pvz.city_name" class="text-muted" style="font-size: 0.8em;">Город: <t t-esc="pvz.city_name"/></div>
+                            </div>
+                        </button>
+                    </t>
+                </div>
+                <div t-if="state.showDropdown and state.searchResults.length === 0 and state.currentInput.length >= 2 and !state.isLoading"
+                    class="cdek-pvz-dropdown dropdown-menu show position-absolute w-100 p-2 text-muted">
+                    Нет совпадений.
+                </div>
+            </div>
+        </t>
+
+    </templates>

@@ -1,0 +1,65 @@
+<odoo>
+  <data>
+    <!-- Скрытые поля города и кода страны -->
+    <record id="view_order_form_cdek" model="ir.ui.view">
+      <field name="name">sale.order.form.cdek</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//field[@name='partner_id']" position="after">
+          <!-- invisible="1" → modifiers -->
+          <field name="partner_shipping_id_city"
+                 modifiers="{'invisible': True}"/>
+          <field name="partner_shipping_id_country_code"
+                 modifiers="{'invisible': True}"/>
+        </xpath>
+
+        <xpath expr="//field[@name='payment_term_id']" position="after">
+          <section name="cdek_tracking_section">
+            <group string="CDEK Tracking" name="cdek_tracking_group">
+              <field name="cdek_order_uuid"
+                     readonly="1"
+                     modifiers="{'invisible': [('cdek_order_uuid', '=', False)]}"/>
+              <button name="action_view_cdek_tracking"
+                      string="Track on CDEK Website"
+                      type="object"
+                      icon="fa-truck"
+                      modifiers="{'invisible': [('cdek_order_uuid', '=', False)]}"/>
+            </group>
+          </section>
+        </xpath>
+      </field>
+    </record>
+
+    <!-- Виджет селектора ПВЗ с картой -->
+    <record id="view_order_form_cdek_pvz_map_selector" model="ir.ui.view">
+      <field name="name">sale.order.form.cdek.pvz.map.selector</field>
+      <field name="model">sale.order</field>
+      <field name="inherit_id" ref="sale.view_order_form"/>
+      <field name="arch" type="xml">
+        <xpath expr="//group[@name='sale_shipping']" position="after">
+          <section name="cdek_pvz_selection_section">
+            <group string="CDEK PVZ Selection" name="cdek_pvz_selection_group">
+              <field name="cdek_pvz_id"
+                     widget="cdek_pvz_selector_map"
+                     colspan="2"
+                     nolabel="1"
+                     options="{'no_open': True, 'yandex_maps_api_key': 'YOUR_OPTIONAL_KEY_IF_NOT_IN_USER_CONTEXT'}"
+                     placeholder="Выберите ПВЗ СДЭК..."
+                     modifiers="{
+                       'readonly': [('state','in',('sale','done','cancel'))],
+                       'invisible': ['|', ('carrier_id','=',False), ('carrier_id.delivery_type','!=','cdek')]
+                     }"/>
+              <field name="cdek_pvz_code"
+                     string="Код выбранного ПВЗ"
+                     readonly="1"
+                     modifiers="{
+                       'invisible': ['|', ('carrier_id','=',False), ('carrier_id.delivery_type','!=','cdek')]
+                     }"/>
+            </group>
+          </section>
+        </xpath>
+      </field>
+    </record>
+  </data>
+</odoo>
