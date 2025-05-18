@@ -1,0 +1,7 @@
+<odoo>
+    <template id="cdek_widget_template" inherit_id="website.layout">
+        <xpath expr="//body" position="inside">
+            <div id="cdek_widget_container" class="my-4 container"/>
+        </xpath>
+    </template>
+</odoo>

@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16-alpine
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: odoo             # пустая БД, которую нужно заполнить
+      POSTGRES_USER: odoo
+      POSTGRES_PASSWORD: odoo
+      TZ: Europe/Helsinki
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  odoo:
+    image: odoo:18.0                # официальный community‑образ
+    restart: unless-stopped
+    depends_on:
+      - db
+    # ПРИ ПЕРВОМ ЗАПУСКЕ выполнит миграции модуля base
+    command: >
+      odoo -d odoo -i base --without-demo=all
+    ports:
+      - "8069:8069"                 # http://<IP‑или‑домен>:8069
+    environment:
+      HOST: db                      # адрес сервиса Postgres
+      USER: odoo
+      PASSWORD: odoo
+      TZ: Europe/Helsinki
+    volumes:
+      - odoo_data:/var/lib/odoo              # вложения/файлы
+      - ./cdek_odooAPI2:/mnt/extra-addons/cdek_odooAPI2     # кастом‑модули (пока пустой)
+
+volumes:
+  db_data:
+  odoo_data:
